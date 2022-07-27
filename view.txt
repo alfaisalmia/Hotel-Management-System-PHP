@@ -1,0 +1,59 @@
+==================================================
+ROOM DETAILS VIEW
+==================================================
+CREATE VIEW room_details_view AS
+SELECT
+  room.id,
+  room.code,
+  room.description,
+  room.discount,
+  room.adult,
+  room.child,
+  room.price,
+  room.vat,
+  room.size,
+  room.picture1,
+  room.picture2,
+  room.picture3,
+  service.name service_name,
+  roomtype.name roomtype_name
+FROM
+  room
+LEFT JOIN
+  roomservice ON roomservice.roomid = room.id
+LEFT JOIN
+  service ON service.id = roomservice.serviceid
+LEFT JOIN
+  roomtype ON room.roomtypeid = roomtype.id
+delimiter : //
+-----------------------------------------------------------------------------------------
+==================================================
+MENU VIEW
+==================================================
+create VIEW menu_view AS 
+SELECT menu.id, menu.title, menu.description, menu.price, menu.discount, menu.picture, category.name cname, menutype.name mname
+FROM menu, category, menutype
+WHERE menu.menutypeid=menutype.id AND menu.categoryid=category.id
+
+delimiter : //
+-----------------------------------------------------------------------------------------
+==================================================
+ROOM CANCELLATION VIEW
+==================================================
+CREATE VIEW room_booking_cancel AS
+SELECT
+  roombooking.*,
+  payment.name pname,
+  room.code CODE,
+  users.id usersid,
+  users.name
+FROM
+  roombooking,
+  payment,
+  room,
+  users
+WHERE
+  roombooking.roomid = room.id AND roombooking.paymentid = payment.id AND roombooking.userid = users.id
+
+delimiter : //
+-----------------------------------------------------------------------------------------
